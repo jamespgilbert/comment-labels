@@ -37,6 +37,6 @@
     "icon": "icon.png",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Microsoft/comment-labels.git"
+        "url": "https://github.com/jamespgilbert/comment-labels.git"
     }
 }
