@@ -60,9 +60,9 @@ letters["="] = 360;
 letters["-"] = 368;
 letters["+"] = 378;
 letters["_"] = 390;
-letters["!"] = 410;
-letters["?"] = 414;
-letters["~"] = 422;
+letters["!"] = 400;
+letters["?"] = 404;
+letters["~"] = 412;
 
 
 
