@@ -11,9 +11,3 @@ On a blank line in the editor, type the text you want to make a comment label fo
 ## Known Issues
 
 The command does not support some characters such as slashes and other characters that do not render well in the ascii text format.
-
-## Release Notes
-
-### 1.0.0
-
-Initial release of Comment Label extension.
