@@ -64,7 +64,21 @@ letters["!"] = 400;
 letters["?"] = 404;
 letters["~"] = 412;
 
-
+// Comments in languages where the comment character is at the beginning of the line and is not '//'
+// TODO: I'm sure this could be gotten from the language configuration, but i'm not sure how,
+//       so here are a few more popular languages which use non-'//' comments.
+comments = [];
+comments["python"] = "##";
+comments["ruby"] = "##";
+comments["perl"] = "##";
+comments["powershell"] = "##";
+comments["lua"] = "--";
+comments["haskell"] = "--";
+comments["clojure"] = ";;";
+comments["coffeescript"] = "##";
+comments["r"] = "##";
+comments["shellscript"] = "##";
+comments["tex"] = "%%";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -94,6 +108,11 @@ function activate(context) {
             return; // No open text editor
         }
 
+        // Check what is the editor language
+        var language = editor.document.languageId;
+        // Get the language comment
+        var comment = comments[language] || "//";
+
         var selection = editor.selection;
         var str = editor.document.getText(selection).trim();
         if(str == "")
@@ -112,7 +131,7 @@ function activate(context) {
                 {
                     if(plines[p] == undefined)
                 {
-                    plines[p] = "//  ";
+                    plines[p] = comment + "  ";
                 }
                 plines[p] += lines[p].substr(letters[ch][0],letters[ch][1]);
                 }
@@ -126,8 +145,8 @@ function activate(context) {
                 borderline += "=";
                 paddingline += " ";
             }
-            borderline = "//" + borderline;
-            paddingline = "//" + paddingline;
+            borderline = comment + borderline;
+            paddingline = comment + paddingline;
             
             outp += borderline + "\n";
             outp += paddingline + "\n";
