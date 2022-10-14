@@ -1,6 +1,15 @@
 # comment-labels
 
-This extension allows you to create big comment label blocks for easy visual separation of code.
+This extension allows you to create big comment label blocks for easy visual separation of code; like that:
+
+```sh
+ #####                                                ##         ##              ##             ###       
+##                                     ####          ####        ##              ##       ####   ##    ###
+##       ####   ########   ########   ##  #  #####    ##         ##       ####   #####   ##  #   ##   ##  
+##      ##  ##  ##  #  ##  ##  #  ##  ###    ##  ##   ##         ##      #  ##   ##  ##  ###     ##     ##
+ #####   ####   ##  #  ##  ##  #  ##   ####  ##  ##    ##        ######   #####  #####    ####  ####  ### 
+```
+
 
 ## Using
 

@@ -17,3 +17,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### [1.2.1]
 - Added the entire printable ASCII character set (lowercase + some special characters)
+
+### [1.2.2]
+- Moved letters to a separate file
