@@ -14,3 +14,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### [1.2.0]
 - Added more letters
+
+### [1.2.1]
+- Added the entire printable ASCII character set (lowercase + some special characters)
