@@ -3,11 +3,11 @@
 var vscode = require('vscode');
 
 var lines = [];
-lines[0] = "  ###    #####    ####  ####    #####  #####   ####    ##   ##  ##      ##  ##  ##  ##      ###    ###  ##     ##   #####   #####    #####   #####     ####  ######  ##   ##  ##   ##  ##      ##  ##    ##  ##    ##  ######   ####     #    ####    ####     #  ##  ######     ##   ######   ####    ####              ###  ###          #  #     ##  ##   ## ##  ##                        ##                ##   ####                 ";
-lines[1] = " ## ##   ##  ##  ##     ##  ##  ##     ##     ##       ##   ##  ##      ##  ## ##   ##      ## #  # ##  ####   ##  ##   ##  ##  ##  ##   ##  ##  ##   ##       ##    ##   ##  ##   ##  ##      ##   ##  ##    ##  ##      ##   ##  ##  ###   #    #  #   ##   #   ##  ##       ##         ##  #   ##  #   ##             #      #         #    #   ########   #  #   #  ######                ##                ##  #   ##    ###         ";
-lines[2] = "##   ##  #####   ##     ##  ##  #####  #####  ##  ###  #######  ##      ##  ####    ##      ##  ##  ##  ##  ## ##  ##   ##  #####   ##   ##  #####     ###     ##    ##   ##  ##   ##  ##  ##  ##    ####      ####      ##    #    #   ##      ##     ###   #######  #####   #####      #     ####    #####             #      #        ##    ##   ##  ##                      ########  ##########            ##     ##   ##   ##   ##  ";
-lines[3] = "#######  ##  ##  ##     ##  ##  ##     ##     ##   ##  ##   ##  ##  ##  ##  ## ##   ##      ##      ##  ##    ###  ##   ##  ##       #####   ##  ##      ##    ##    ##   ##   ## ##   ##  ##  ##   ##  ##      ##      ##     ##  ##   ##    ##     #   ##       ##      ##  ##   #    ##    #   ##      ##         ##  #      #         #    #   ########             ######                ##                                  ###     ";
-lines[4] = "##   ##  #####    ####  ####    #####  ##      ####    ##   ##  ##   ####   ##  ##  ######  ##      ##  ##     ##   #####   ##           ##  ##   ##  ####     ##     #####     ###     ###  ###   ##    ##     ##     ######   ####   ####  ######   ####        ##  #####    ####     ##     ####     ###         ##   ###  ###    ##    #  #     ##  ##                                    ##      ########  ##     #                  ";
+lines[0] = "  ###    #####    ####  ####    #####  #####   ####    ##   ##  ##      ##  ##  ##  ##      ###    ###  ##     ##   #####   #####    #####   #####     ####  ######  ##   ##  ##   ##  ##      ##  ##    ##  ##    ##  ######   ####     #    ####    ####     #  ##  ######     ##   ######   ####    ####              ###  ###          #  #     ##  ##   ## ##  ##                        ##                ##   ####                     ##  ##        ###     ##   ";
+lines[1] = " ## ##   ##  ##  ##     ##  ##  ##     ##     ##       ##   ##  ##      ##  ## ##   ##      ## #  # ##  ####   ##  ##   ##  ##  ##  ##   ##  ##  ##   ##       ##    ##   ##  ##   ##  ##      ##   ##  ##    ##  ##      ##   ##  ##  ###   #    #  #   ##   #   ##  ##       ##         ##  #   ##  #   ##             #      #         #    #   ########   #  #   #  ######                ##                ##  #   ##    ###            ##    ##      ## ##   ####  ";
+lines[2] = "##   ##  #####   ##     ##  ##  #####  #####  ##  ###  #######  ##      ##  ####    ##      ##  ##  ##  ##  ## ##  ##   ##  #####   ##   ##  #####     ###     ##    ##   ##  ##   ##  ##  ##  ##    ####      ####      ##    #    #   ##      ##     ###   #######  #####   #####      #     ####    #####             #      #        ##    ##   ##  ##                      ########  ##########            ##     ##   ##   ##   ##    ##      ##    ##   ##   ##   ";
+lines[3] = "#######  ##  ##  ##     ##  ##  ##     ##     ##   ##  ##   ##  ##  ##  ##  ## ##   ##      ##      ##  ##    ###  ##   ##  ##       #####   ##  ##      ##    ##    ##   ##   ## ##   ##  ##  ##   ##  ##      ##      ##     ##  ##   ##    ##     #   ##       ##      ##  ##   #    ##    #   ##      ##         ##  #      #         #    #   ########             ######                ##                                  ###      ##        ##                  ";
+lines[4] = "##   ##  #####    ####  ####    #####  ##      ####    ##   ##  ##   ####   ##  ##  ######  ##      ##  ##     ##   #####   ##           ##  ##   ##  ####     ##     #####     ###     ###  ###   ##    ##     ##     ######   ####   ####  ######   ####        ##  #####    ####     ##     ####     ###         ##   ###  ###    ##    #  #     ##  ##                                    ##      ########  ##     #                  ##          ##                 ";
 
 var letters = {};
 letters["A"] = 0;
@@ -63,6 +63,10 @@ letters["_"] = 390;
 letters["!"] = 400;
 letters["?"] = 404;
 letters["~"] = 412;
+letters["/"] = 426;
+letters["\\"] = 434;
+letters["^"] = 442;
+letters["*"] = 451;
 
 // Comments in languages where the comment character is at the beginning of the line and is not '//'
 // TODO: I'm sure this could be gotten from the language configuration, but i'm not sure how,
@@ -87,17 +91,15 @@ function activate(context) {
     console.log('loaded "comment-labels"');
 
     var lastlet = false;
-    var sequence = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,[].()#\"'=-+_!?~";
-    for(var c = 0; c < sequence.length; c++)
-    {
-    var let = sequence[c];
-        if(lastlet)
-        {
-            letters[lastlet] = [letters[lastlet], letters[let] - letters[lastlet]];
+    var sequence = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,[].()#\"'=-+_!?~/\\^*";
+    for(var c = 0; c < sequence.length; c++) {
+        var letter = sequence[c];
+        if (lastlet) {
+            letters[lastlet] = [letters[lastlet], letters[letter] - letters[lastlet]];
         }
-        lastlet = let;
+        lastlet = letter;
     }
-    letters["~"] = [letters["~"], lines[0].length - letters["~"]];
+    letters["*"] = [letters["*"], lines[0].length - letters["*"]];
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
@@ -121,27 +123,23 @@ function activate(context) {
         editor.edit(function (builder) {
             str = str.toUpperCase();
             var plines = new Array(5);
-            for(var c in str)
-            {
+            for(var c in str) {
                 var ch = str[c];
-                if(letters[ch] == undefined)
+                if(letters[ch] == undefined) {
                     letters[ch] = letters[" "];
-
-                for(var p = 0; p < plines.length; p++)
-                {
-                    if(plines[p] == undefined)
-                {
-                    plines[p] = comment + "  ";
                 }
-                plines[p] += lines[p].substr(letters[ch][0],letters[ch][1]);
+                for(var p = 0; p < plines.length; p++){
+                    if(plines[p] == undefined) {
+                        plines[p] = comment + "  ";
+                    }
+                    plines[p] += lines[p].substr(letters[ch][0],letters[ch][1]);
                 }
             }
 
             var outp = "";
             var borderline = "";
             var paddingline = "";
-            for(var c = 0; c < plines[0].length; c++)
-            {
+            for(var c = 0; c < plines[0].length; c++) {
                 borderline += "=";
                 paddingline += " ";
             }
@@ -150,8 +148,7 @@ function activate(context) {
             
             outp += borderline + "\n";
             outp += paddingline + "\n";
-            for(var p = 0; p < plines.length; p++)
-            {
+            for(var p = 0; p < plines.length; p++) {
                 outp += plines[p] + "\n";
             }
             outp += paddingline + "\n";
